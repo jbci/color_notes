@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  board_id: 
+  text: MyString
+  x: 1
+  'y': 1
+  color: MyString
+
+two:
+  board_id: 
+  text: MyString
+  x: 1
+  'y': 1
+  color: MyString

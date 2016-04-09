@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Notes</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <%= csrf_meta_tags %>
+  <style>
+  .draggable { width: 150px; height: 150px; padding: 0.5em; }
+  </style>
+  <script>
+  $(function() {
+    $( ".draggable" ).draggable(
+      {
+            scroll: false,
+            stop: function(event, ui) {
+                var $this = $(this);
+                var thisPos = $this.position();
+                var parentPos = $this.parent().position();
+                var img = {
+                  
+                    "id": $(this).attr('id'),
+                    //"y": $(this).position().top.toString(),
+                    "x": thisPos.left,
+                    // "x": $(this).position().left.toString()
+                    "y": thisPos.top
+                };
+                $.ajax({
+                    type: "put",
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    url: "/notes/" + $(this).attr('id') + ".json",
+                    data: JSON.stringify(img),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                })
+            },
+            drag: function() {
+                var $this = $(this);
+                var thisPos = $this.position();
+                var parentPos = $this.parent().position();
+    
+                var x = thisPos.left;// - parentPos.left;
+                var y = thisPos.top;// - parentPos.top;
+    
+                $this.text(x + ", " + y);
+              }
+      }
+      );
+  });
+
+  </script>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

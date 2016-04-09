@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Notes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Board</th>
+      <th>Text</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Color</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notes.each do |note| %>
+      <tr>
+        <td><%= note.board %></td>
+        <td><%= note.text %></td>
+        <td><%= note.x %></td>
+        <td><%= note.y %></td>
+        <td><%= note.color %></td>
+        <td><%= link_to 'Show', note %></td>
+        <td><%= link_to 'Edit', edit_note_path(note) %></td>
+        <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Note', new_note_path %>

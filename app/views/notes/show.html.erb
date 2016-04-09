@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Board:</strong>
+  <%= @note.board %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @note.text %>
+</p>
+
+<p>
+  <strong>X:</strong>
+  <%= @note.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @note.y %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @note.color %>
+</p>
+
+<%= link_to 'Edit', edit_note_path(@note) %> |
+<%= link_to 'Back', notes_path %>

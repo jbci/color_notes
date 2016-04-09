@@ -1,0 +1,8 @@
+<%= simple_form_for @note  do |f| %>
+  <%= f.association :board %>
+  <%= f.input :text %>
+  <%= f.input :color %>
+  <%= f.input :x %>
+  <%= f.input :y %>
+  <%= f.button :submit %>
+<% end %>
