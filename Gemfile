@@ -32,6 +32,8 @@ gem 'puma'
 gem 'pg'
 gem 'simple_form'
 
+gem "redis"
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

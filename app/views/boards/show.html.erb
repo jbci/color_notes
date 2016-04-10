@@ -5,12 +5,6 @@
   <%= @board.name %>, <%= @board.notes.count %> notes, 
 </p>
 
-<div id="board-div">
-<!--<% @board.notes.each do |n| %>-->
-<!--<div id="<%= n.id %>" class="draggable" style="z-index:<%= n.id %>;background-color:<%= n.color %>;position:absolute;top:<%= n.y %>px;left:<%= n.x %>px;">-->
-<!--  <p><%= n.text %> </p>-->
-<!--</div>-->
-<!--<% end %>-->
-</div>
+<div id="board-div"></div>
 
 <%= link_to 'Edit Board', edit_board_path(@board) %>

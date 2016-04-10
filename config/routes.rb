@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :notes
+  resources :notes do
+    collection {get :events}
+  end 
   resources :boards
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

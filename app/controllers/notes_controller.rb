@@ -1,4 +1,5 @@
 class NotesController < ApplicationController
+  include ActionController::Live
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   # GET /notes
@@ -43,7 +44,8 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @note, notice: 'Note was successfully updated.' }
-        format.json { render :show, status: :ok, location: @note }
+        format.json { render :show, status: :ok, location: @note }        puts '-------------------------------------------->notes.updated'
+        $redis.publish('notes.updated', @note.to_json)
       else
         format.html { render :edit }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -59,6 +61,21 @@ class NotesController < ApplicationController
       format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+  
+  def events
+    response.headers["Content-Type"]="text/event-stream"
+    redis = Redis.new
+    redis.subscribe('notes.updated') do |on|
+      on.message do |event, data|
+        response.stream.write "data:{\"note\": #{data}}\n\n"
+      end
+    end
+  rescue IOError  
+    logger.info "Stream Closed"
+  ensure
+    redis.quit
+    response.stream.close
   end
 
   private
