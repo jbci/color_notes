@@ -44,8 +44,8 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @note, notice: 'Note was successfully updated.' }
-        format.json { render :show, status: :ok, location: @note }        puts '-------------------------------------------->notes.updated'
-        $redis.publish('notes.updated', @note.to_json)
+        format.json { render :show, status: :ok, location: @note }    
+        $redis.publish('notes.update', @note.to_json)
       else
         format.html { render :edit }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -66,8 +66,12 @@ class NotesController < ApplicationController
   def events
     response.headers["Content-Type"]="text/event-stream"
     redis = Redis.new
-    redis.subscribe('notes.updated') do |on|
-      on.message do |event, data|
+    redis.psubscribe('notes.*') do |on|
+      puts '------------------------------------------------------>events'
+      on.pmessage do |pattern, event, data|
+        puts '------------------------------------------------------>events::'+event.inspect
+        puts '------------------------------------------------------>events::'+data.inspect
+        response.stream.write "event: #{event}\n"
         response.stream.write "data:{\"note\": #{data}}\n\n"
       end
     end

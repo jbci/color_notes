@@ -2,8 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 source = new EventSource('/notes/events')
-source.addEventListener 'message', (e) ->
-    console.log e
+source.addEventListener 'notes.update', (e) ->
     note = $.parseJSON(e.data).note
     $('#note_'+note.id).remove()
     $('#board-div').append "<div class='draggable' id='note_"+note.id+"' style='z-index:"+note.id+";background-color:"+note.color+";position:absolute;top:"+note.y+"px;left:"+note.x+"px;' ><p>"+note.text+"</p></div>"
