@@ -2,17 +2,15 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @board.name %>, <%= @board.notes.count %> notes
+  <%= @board.name %>, <%= @board.notes.count %> notes, 
 </p>
 
-<div style="background-color:grey;position:relative;width:800px;height:800px;top:0px;left:0px;">
-<% @board.notes.each do |n| %>
-<div id="<%= n.id %>"class="draggable" style="z-index:<%= n.id %>;background-color:<%= n.color %>;position:absolute;top:<%= n.y %>px;left:<%= n.x %>px;">
-  <p><%= n.text %> </p>
-</div>
-<% end %>
-  
+<div id="board-div">
+<!--<% @board.notes.each do |n| %>-->
+<!--<div id="<%= n.id %>" class="draggable" style="z-index:<%= n.id %>;background-color:<%= n.color %>;position:absolute;top:<%= n.y %>px;left:<%= n.x %>px;">-->
+<!--  <p><%= n.text %> </p>-->
+<!--</div>-->
+<!--<% end %>-->
 </div>
 
-<%= link_to 'Edit', edit_board_path(@board) %> |
-<%= link_to 'Back', boards_path %>
+<%= link_to 'Edit Board', edit_board_path(@board) %>

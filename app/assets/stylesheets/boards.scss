@@ -1,3 +1,17 @@
 // Place all the styles related to the boards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#board-div {
+    background-color:grey;
+    position:relative;
+    width:100%;
+    min-height:800px;
+    top:0px;
+    left:0px;
+}
+
+.draggable{ 
+    width: 150px; 
+    height: 150px; 
+    padding: 0.5em; 
+}
