@@ -2,9 +2,38 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 source = new EventSource('/notes/events')
+source.addEventListener 'notes.delete', (e) ->
+    note = $.parseJSON(e.data).note
+    $('#note_'+note.id).remove()
+    
 source.addEventListener 'notes.update', (e) ->
     note = $.parseJSON(e.data).note
     $('#note_'+note.id).remove()
+    $('#board-div').append "<div class='draggable' id='note_"+note.id+"' style='z-index:"+note.id+";background-color:"+note.color+";position:absolute;top:"+note.y+"px;left:"+note.x+"px;' ><p>"+note.text+"</p></div>"
+    $('#note_'+note.id).draggable
+      scroll: false
+      stop: (event, ui) ->
+        $this = $(this)
+        thisPos = $this.position()
+        parentPos = $this.parent().position()
+        id = $(this).attr('id').replace("note_","")
+        img = 
+          'id': id
+          'x': thisPos.left
+          'y': thisPos.top
+        $.ajax
+          type: 'put'
+          beforeSend: (xhr) ->
+            xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
+            return
+          url: '/notes/' + id + '.json'
+          data: JSON.stringify(img)
+          contentType: 'application/json'
+          dataType: 'json'
+        return
+
+source.addEventListener 'notes.create', (e) ->
+    note = $.parseJSON(e.data).note
     $('#board-div').append "<div class='draggable' id='note_"+note.id+"' style='z-index:"+note.id+";background-color:"+note.color+";position:absolute;top:"+note.y+"px;left:"+note.x+"px;' ><p>"+note.text+"</p></div>"
     $('#note_'+note.id).draggable
       scroll: false
@@ -37,7 +66,7 @@ $(document).on "page:change", ->
     contentType: 'application/json'
     dataType: 'json'
     error: (jqXHR, textStatus, errorThrown) ->
-      alert "AJAX Error: #{textStatus}"
+      console.log "AJAX Error: #{textStatus}"
     success: (data, textStatus, jqXHR) ->
       for note in data.notes
         do (note)->

@@ -31,6 +31,7 @@ class NotesController < ApplicationController
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully created.' }
         format.json { render :show, status: :created, location: @note }
+        $redis.publish('notes.create', @note.to_json)
       else
         format.html { render :new }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -60,6 +61,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
+      $redis.publish('notes.delete', @note.to_json)
     end
   end
   
@@ -67,10 +69,7 @@ class NotesController < ApplicationController
     response.headers["Content-Type"]="text/event-stream"
     redis = Redis.new
     redis.psubscribe('notes.*') do |on|
-      puts '------------------------------------------------------>events'
       on.pmessage do |pattern, event, data|
-        puts '------------------------------------------------------>events::'+event.inspect
-        puts '------------------------------------------------------>events::'+data.inspect
         response.stream.write "event: #{event}\n"
         response.stream.write "data:{\"note\": #{data}}\n\n"
       end

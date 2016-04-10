@@ -20,6 +20,7 @@ development:
 
   # The password associated with the postgres role (username).
   password: a
+  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 16 %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
