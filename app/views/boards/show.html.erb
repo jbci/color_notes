@@ -2,7 +2,7 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @board.name %>, <%= @board.notes.count %> notes, 
+  <%= @board.name %>, <%= @board.notes.count %> notes, <%= render 'note_form' %>
 </p>
 
 <div id="board-div"></div>

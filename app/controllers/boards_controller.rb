@@ -10,6 +10,8 @@ class BoardsController < ApplicationController
   # GET /boards/1
   # GET /boards/1.json
   def show
+    @note = Note.new
+    @note.board = Board.find_by_id(params[:id])
   end
 
   # GET /boards/new

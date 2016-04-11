@@ -21,3 +21,10 @@
 
 en:
   hello: "Hello world"
+board:
+  color_list:
+    - 'red'
+    - 'black'
+    - 'blue'
+    - 'orange'
+    - 'pink'

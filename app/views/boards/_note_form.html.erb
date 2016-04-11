@@ -1,0 +1,5 @@
+<%= simple_form_for @note, remote: true   do |f| %>
+  <%= f.input :text %>
+  <%= f.input :color, collection: @board.colors.sort, value_method: :name, selected: "yellow" %>
+  <%= f.button :submit %>
+<% end %>
