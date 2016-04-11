@@ -1,7 +1,8 @@
 class NotesController < ApplicationController
   include ActionController::Live
   before_action :set_note, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_board, only: [:events]
+  
   # GET /notes
   # GET /notes.json
   def index
@@ -70,8 +71,11 @@ class NotesController < ApplicationController
     redis = Redis.new
     redis.psubscribe('notes.*') do |on|
       on.pmessage do |pattern, event, data|
-        response.stream.write "event: #{event}\n"
-        response.stream.write "data:{\"note\": #{data}}\n\n"
+        parsed_data = JSON.parse data
+        if parsed_data['board_id'] == @board.id
+          response.stream.write "event: #{event}\n"
+          response.stream.write "data:{\"note\": #{data}}\n\n"
+        end
       end
     end
   rescue IOError  
@@ -86,7 +90,11 @@ class NotesController < ApplicationController
     def set_note
       @note = Note.find(params[:id])
     end
-
+    
+    def set_board
+      @board = Board.find(params[:board_id])
+    end
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
       params.require(:note).permit(:board_id, :text, :x, :y, :color)

@@ -1,5 +1,8 @@
 class BoardsController < ApplicationController
   before_action :set_board, only: [:show, :edit, :update, :destroy]
+  before_action :set_board_id, only: [:notes]
+  
+  respond_to :html, :json
 
   # GET /boards
   # GET /boards.json
@@ -11,7 +14,12 @@ class BoardsController < ApplicationController
   # GET /boards/1.json
   def show
     @note = Note.new
-    @note.board = Board.find_by_id(params[:id])
+    @note.board = @board
+  end
+  
+  # GET /boards/1/notes.json
+  def notes
+    respond_with @board.notes
   end
 
   # GET /boards/new
@@ -65,12 +73,16 @@ class BoardsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_board_id
+      @board = Board.find(params[:board_id])
+    end
+    
     def set_board
       @board = Board.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def board_params
-      params.require(:board).permit(:name)
+      params.require(:board).permit(:name, color_ids: [])
     end
 end

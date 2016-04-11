@@ -1,5 +1,6 @@
-<%= simple_form_for @note, remote: true   do |f| %>
-  <%= f.input :text %>
+<%= simple_form_for @note, wrapper: :inline_form, :html => { :class => 'form-inline note_embedded' }, remote: true   do |f| %>
+  <%= f.input_field :board_id, value: @board.id, hidden: true %>
+  <%= f.input :text, placeholder: "New note text" %>
   <%= f.input :color, collection: @board.colors.sort, value_method: :name, selected: "yellow" %>
   <%= f.button :submit %>
 <% end %>

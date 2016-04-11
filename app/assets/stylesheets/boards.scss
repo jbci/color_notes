@@ -18,3 +18,19 @@
 
 .selectable .ui-selecting { background: #FECA40; }
 .selectable .ui-selected { background: #F39814; color: white; }
+
+.note_embedded {
+    position:absolute;
+    top: 5px;
+    right: 0px;
+}
+
+#trash {
+    z-index: 999999;
+    display: inline-block;
+    width: 200px;
+    border:1px dotted black;
+}
+#note_counter {
+    display: inline-block;
+}

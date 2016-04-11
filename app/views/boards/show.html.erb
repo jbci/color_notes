@@ -1,9 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<span style="display: inline-block;">
   <strong>Name:</strong>
-  <%= @board.name %>, <%= @board.notes.count %> notes, <%= render 'note_form' %>
-</p>
+  <%= @board.name %>, <div id="note_counter"></div> notes </span>
+  
+  <div id="trash">Drop here to delete</div> <%= render 'note_form' %>
+
 
 <div id="board-div"></div>
 

@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   resources :notes do
-    collection {get :events}
+    # collection {get :events}
+    collection do
+      get 'events/:board_id' => :events
+    end
   end 
-  resources :boards
+  
+  resources :boards do
+    get 'notes'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
