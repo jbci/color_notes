@@ -16,4 +16,5 @@
 //= require turbolinks
 //= require jquery
 //= require bootstrap-sprockets
+//= require jqueryui-touch-punch-improved
 //= require_tree .

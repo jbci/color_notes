@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.6)
       actionpack (= 4.2.6)
@@ -100,6 +101,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.6)
       sprockets-rails
+    rails-assets-jqueryui-touch-punch-improved (0.3.1)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -170,6 +172,7 @@ DEPENDENCIES
   puma
   quiet_assets
   rails (= 4.2.6)
+  rails-assets-jqueryui-touch-punch-improved!
   redis
   responders
   sass-rails (~> 5.0)
