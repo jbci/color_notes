@@ -7,7 +7,7 @@ board_id = url_array[url_array.length-1]
 reg = new RegExp('^\\d+$');
 if reg.test board_id
   source = new EventSource('/notes/events/'+board_id)
-  
+
   source.addEventListener 'notes.delete', (e) ->
     note = $.parseJSON(e.data).note
     $('#note_'+note.id).remove()
@@ -18,7 +18,7 @@ if reg.test board_id
     if pos > -1
       notes.splice pos, 1
     $( "#note_counter" ).text notes.length
-      
+
   source.addEventListener 'notes.update', (e) ->
       note = $.parseJSON(e.data).note
       $('#note_'+note.id).remove()
@@ -30,7 +30,7 @@ if reg.test board_id
           thisPos = $this.position()
           parentPos = $this.parent().position()
           id = $(this).attr('id').replace("note_","")
-          img = 
+          img =
             'id': id
             'x': thisPos.left
             'y': thisPos.top
@@ -44,12 +44,12 @@ if reg.test board_id
             contentType: 'application/json'
             dataType: 'json'
           return
-  
+
   source.addEventListener 'notes.create', (e) ->
       note = $.parseJSON(e.data).note
       notes.push(note)
       $( "#note_counter" ).text notes.length
-      $('#board-div').append "<div class='draggable' id='note_"+note.id+"' style='z-index:"+note.id+";background-color:"+note.color+";position:absolute;top:"+note.y+"px;left:"+note.x+"px;' ><p>"+note.text+"</p></div>"
+      $('#board-div').append "<div class='draggable' id='note_"+note.id+"' style='z-index:"+note.id+";background-color:"+note.color.code+";position:absolute;top:"+note.y+"px;left:"+note.x+"px;' ><p>"+note.text+"</p></div>"
       $('#note_'+note.id).draggable
         scroll: false
         stop: (event, ui) ->
@@ -57,7 +57,7 @@ if reg.test board_id
           thisPos = $this.position()
           parentPos = $this.parent().position()
           id = $(this).attr('id').replace("note_","")
-          img = 
+          img =
             'id': id
             'x': thisPos.left
             'y': thisPos.top
@@ -71,23 +71,23 @@ if reg.test board_id
             contentType: 'application/json'
             dataType: 'json'
           return
-  
+
   $(document).on "page:change", ->
-    $('#trash').droppable 
+    $('#trash').droppable
       tolerance: "touch"
       accept: '.draggable'
       drop: (event, ui) ->
         raw_id = ui.draggable.attr("id");
         $( "#"+raw_id ).addClass('nodrag');
         id = raw_id.replace("note_","")
-        img = 
+        img =
           'id': id
         $.ajax
           type: 'delete'
           beforeSend: (xhr) ->
             xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
             return
-          url: '/notes/' + id 
+          url: '/notes/' + id
           data: JSON.stringify(img)
           contentType: 'application/json'
           dataType: 'json'
@@ -114,7 +114,7 @@ if reg.test board_id
                   thisPos = $this.position()
                   parentPos = $this.parent().position()
                   id = $(this).attr('id').replace("note_","")
-                  img = 
+                  img =
                     'id': id
                     'x': thisPos.left
                     'y': thisPos.top
@@ -128,7 +128,7 @@ if reg.test board_id
                     contentType: 'application/json'
                     dataType: 'json'
                   return
-    
+
 
 
 # ---

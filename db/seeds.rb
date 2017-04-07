@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Color.create(name: 'rojo', code:'FF0000')
+Color.create(name: 'verde', code:'00FF00')
+Color.create(name: 'azul', code:'0000FF')
